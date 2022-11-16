@@ -1,4 +1,3 @@
-// config/database.js
 var mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
 var chalk = require('chalk');
