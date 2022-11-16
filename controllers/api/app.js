@@ -42,7 +42,7 @@ app.post("/register", (request, response) => {
     .then((hashedPassword) => {
       // create a new user instance and collect the data
       const user = new User({
-        email: request.body.email,
+        username: request.body.username,
         password: hashedPassword,
       });
 
@@ -75,10 +75,10 @@ app.post("/register", (request, response) => {
 
 // login endpoint
 app.post("/login", (request, response) => {
-  // check if email exists
-  User.findOne({ email: request.body.email })
+  // check if username exists
+  User.findOne({ username: request.body.username })
 
-    // if email exists
+    // if username exists
     .then((user) => {
       // compare the password entered and the hashed password found
       bcrypt
@@ -99,7 +99,7 @@ app.post("/login", (request, response) => {
           const token = jwt.sign(
             {
               userId: user._id,
-              userEmail: user.email,
+              username: user.username,
             },
             "RANDOM-TOKEN",
             { expiresIn: "24h" }
@@ -108,7 +108,7 @@ app.post("/login", (request, response) => {
           //   return success response
           response.status(200).send({
             message: "Login Successful",
-            email: user.email,
+            username: user.username,
             token,
           });
         })
@@ -120,10 +120,10 @@ app.post("/login", (request, response) => {
           });
         });
     })
-    // catch error if email does not exist
+    // catch error if user name does not exist
     .catch((e) => {
       response.status(404).send({
-        message: "Email not found",
+        message: "User name not found",
         e,
       });
     });
