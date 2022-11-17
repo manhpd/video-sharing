@@ -3,22 +3,32 @@ import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 
 export const Share = () => {
-    const [youtubeUrl, setYoutubeUrl] = useState("");
+    const [videoId, setVideoId] = useState("");
+
+    const youtube_parser = (url) => {
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        var match = url.match(regExp);
+        return (match&&match[7].length==11)? match[7] : false;
+    }
 
     const shareVideo = async () => {
+        const videoInfo = await axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=64Wj7NpWZb0&key=AIzaSyBDzShH0tcvjUjpMiqvJ5Zt8D2NXfI8-8c', 
+        { params: { id: videoId } });
+        console.log(videoInfo.data.items[0]);
+
         const saveVideoRequest = {
             method: "post",
             url: "http://localhost:3000/saveVideo",
             data: {
-                videoId : "rokGy0huYEA",
+                videoId,
                 shareBy: "admin",
-                title: "title",
-                description: "description",
+                title: videoInfo.data.items[0].snippet.title,
+                description: videoInfo.data.items[0].snippet.description,
             },
         };
         await axios(saveVideoRequest)
         .then((result) => {
-            setYoutubeUrl("");
+            setVideoId("");
         })
         .catch((error) => {
             error = new Error();
@@ -37,8 +47,8 @@ export const Share = () => {
                             type="text"
                             placeholder=""
                             name="youtubeurl"
-                            onChange={(e) => setYoutubeUrl(e.target.value)}
-                            value={youtubeUrl}
+                            onChange={(e) => setVideoId(youtube_parser(e.target.value))}
+                            value={videoId}
                         />
                         <Button variant="primary" onClick={() => shareVideo()} className="mt-2">
                             Share
