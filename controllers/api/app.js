@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 // require database connection
 const dbConnect = require("../../config/database");
 const User = require("../../model/uerModel");
+const Video = require("../../model/movieModel");
 const auth = require("../../auth");
 
 // execute database connection
@@ -129,13 +130,45 @@ app.post("/login", (request, response) => {
     });
 });
 
-// free endpoint
-app.get("/free-endpoint", (request, response) => {
-  response.json({ message: "You are free to access me anytime" });
+// save video endpoint 
+app.post("/saveVideo", (request, response) => {
+    const video = new Video({
+        shareBy: request.body.shareBy,
+        videoId: request.body.videoId,
+        title: request.body.title,
+        description: request.body.description
+    });
+
+    // save the new user
+    video
+        .save()
+        // return success if the new user is added to the database successfully
+        .then((result) => {
+        response.status(201).send({
+            message: "Video save Successfully",
+            result,
+        });
+        })
+        // catch erroe if the new user wasn't added successfully to the database
+        .catch((error) => {
+        response.status(500).send({
+            message: "Error saving video",
+            error,
+        });
+        });
+});
+
+// get all shared video
+app.get("/getMovies", (request, response) => {
+    Video.find({}, function(err, videos) {
+        console.log(videos);
+    
+        response.send(videos);  
+      });
 });
 
 // authentication endpoint
-app.get("/auth-endpoint", auth, (request, response) => {
+app.get("/getList", auth, (request, response) => {
   response.send({ message: "You are authorized to access me" });
 });
 

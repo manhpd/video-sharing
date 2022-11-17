@@ -1,8 +1,9 @@
 import "./App.css";
 import Register from "./components/Register";
 import { Route, Routes, Navigate } from "react-router-dom";
-import AuthComponent from "./components/AuthComponent";
+import MovieList from "./components/MovieList";
 import Cookies from "universal-cookie";
+import { Share } from "./components/Share";
 const cookies = new Cookies();
 
 function App() {
@@ -12,19 +13,23 @@ function App() {
        {/* create routes here */}
        <Routes>
         <Route
-          path="/auth"
+          path="/list"
           element={
-            // Good! Do your composition here instead of wrapping <Route>.
-            // This is really just inverting the wrapping, but it's a lot
-            // more clear which components expect which props.
             <RequireAuth redirectTo="/">
-              <AuthComponent />
+              <MovieList />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/share"
+          element={
+            <RequireAuth redirectTo="/">
+              <Share />
             </RequireAuth>
           }
         />
       </Routes>
     </>
-   
   );
 }
 
