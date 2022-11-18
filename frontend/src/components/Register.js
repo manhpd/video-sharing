@@ -50,7 +50,7 @@ export default function Register() {
         // destroy the cookie
         cookies.remove("TOKEN", { path: "/" });
         // redirect user to the landing page
-        navigate("/login");
+        navigate("/");
       }
 
     const navigateShare = () => {
