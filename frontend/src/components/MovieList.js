@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "universal-cookie";
 import YoutubeEmbed from "./YoutubEmbed";
-const cookies = new Cookies();
-
 
 export default function MovieList() {
   // set an initial state for the message we will receive after the API call
