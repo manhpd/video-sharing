@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { AiFillHome } from "react-icons/ai";
 const cookies = new Cookies();
 
 
 export default function Register() {
     const navigate = useNavigate();
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [register, setRegister] = useState(false);
     const [login, setLogin] = useState(false);
+
+    const [errorLogin, setErrorLogin] = useState(false);
 
     const handleSubmit = async (e) => {
         // prevent the form from refreshing the whole page
@@ -39,6 +40,7 @@ export default function Register() {
                 setLogin(true);
             })
             .catch((error) => {
+                setErrorLogin(true);
                 error = new Error();
             });
     }
@@ -47,7 +49,7 @@ export default function Register() {
         // destroy the cookie
         cookies.remove("TOKEN", { path: "/" });
         // redirect user to the landing page
-        navigate("/");
+        navigate("/login");
       }
 
     const navigateShare = () => {
@@ -86,8 +88,9 @@ export default function Register() {
         <>
             <Form>
                 {/* email */}
-                <div className='d-flex justify-content-between align-items-start p-3' >
-                    <h2>Register</h2>
+                <div className='d-flex justify-content-between align-items-start p-3 border-bottom' >
+                    
+                    <h2><Link  to="/list" replace={true}><AiFillHome /> Funny Movies </Link></h2>
                     <div>
                         <div className='d-flex gap-2 align-items-center'>
                             {!login ?
@@ -120,7 +123,13 @@ export default function Register() {
                                         type="submit"
                                         onClick={(e) => handleSubmit(e)} >
                                         Register/Login
-                                    </Button> </> : <>
+                                    </Button> 
+                                    { errorLogin ? <>
+                                        
+                                        <div className='text-danger'>Error Login</div> 
+                                    </> : <></>
+                                    }
+                                    </> : <>
                                     <div className='d-flex align-items-center justify-content-between gap-2'>
                                         <span>Welcome {username}</span>
                                         <Button variant="primary" onClick={() => navigateShare()}>

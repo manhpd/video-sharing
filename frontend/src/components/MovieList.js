@@ -36,12 +36,12 @@ export default function MovieList() {
   }, [token]);
 
   const listVideo = videos?.map((video) => 
-    <YoutubeEmbed embedId={video.videoId} title={video.title} shareBy={video.shareBy} description={video.description}/> 
+    <YoutubeEmbed key={video.videoId} embedId={video.videoId} title={video.title} shareBy={video.shareBy} description={video.description}/> 
   );
 
   return (
-    <div className="text-center">
-      <div className="d-flex flex-column align-items-center gap-2">
+    <div className="text-center mt-4">
+      <div className="d-flex flex-column align-items-center gap-2 justify-content-center">
         {listVideo}
       </div>
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const YoutubeEmbed = ({ embedId, title, description, shareBy }) => (
-  <div className="d-flex gap-2">
+  <div className="d-flex gap-2 justify-content-center align-items-center w-100">
     <iframe
       width="400"
       height="220"
@@ -12,11 +12,11 @@ const YoutubeEmbed = ({ embedId, title, description, shareBy }) => (
       allowFullScreen
       title="Embedded youtube"
     />
-    <div className="d-flex flex-column align-items-start">
-        <h2 className="title">{title}</h2>
+    <div className="d-flex flex-column align-items-start w-25">
+        <span className="title text-danger"><strong>{title}</strong></span>
         <span>Share by: <strong>{shareBy}</strong></span>
-        <h3> Description </h3>
-        <p className="title">{description}</p>
+        <span><strong> Description </strong></span>
+        <p className="description">{description}</p>
     </div>
   </div>
 );
