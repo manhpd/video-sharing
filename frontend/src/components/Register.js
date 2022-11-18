@@ -35,7 +35,7 @@ export default function Register() {
                 cookies.set("USERNAME", result.data.username, {
                     path: "/",
                 });
-                navigate("/list");
+                navigate("/");
                 setLogin(true);
                 setIsLoading(false);
             })

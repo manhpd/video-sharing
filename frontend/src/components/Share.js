@@ -22,6 +22,7 @@ export const Share = () => {
     }, []);
 
     const shareVideo = async () => {
+        const token = cookies.get("TOKEN");
         setIsLoading(true);
         const videoInfo = await axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&key=AIzaSyBDzShH0tcvjUjpMiqvJ5Zt8D2NXfI8-8c', 
         { params: { id: youtube_parser(youtubeUrl) } });
@@ -37,6 +38,9 @@ export const Share = () => {
                     title: videoInfo.data.items[0].snippet.title,
                     description: videoInfo.data.items[0].snippet.description,
                 },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
             };
             await axios(saveVideoRequest)
             .then((result) => {
