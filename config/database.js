@@ -1,27 +1,25 @@
-var mongoose = require('mongoose');
-mongoose.set('useCreateIndex', true);
-var chalk = require('chalk');
-var dbURL = require('./properties').DB;
-var connected = chalk.bold.cyan;
-var error = chalk.bold.yellow;
-var disconnected = chalk.bold.red;
-var termination = chalk.bold.magenta;
+const mongoose = require("mongoose");
+require('dotenv').config()
 
-module.exports = function(){
-  mongoose.connect(dbURL);
-  mongoose.connection.on('connected', function(){
-    console.log(connected("Mongoose default connection is open to ", dbURL));
-  });
-  mongoose.connection.on('error', function(err){
-    console.log(error("Mongoose default connection has occured "+ err +" error"));
-  });
-  mongoose.connection.on('disconnected', function(){
-    console.log(disconnected("Mongoose default connection is disconnected"));
-  });
-  process.on('SIGINT', function(){
-    mongoose.connection.close(function(){
-      console.log(termination("Mongoose default connection is disconnected due to application termination"));
-      process.exit(0)
+async function dbConnect() {
+  // use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
+  mongoose
+    .connect(
+        process.env.DB_URL,
+      {
+        //   these are options to ensure that the connection is done properly
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+      }
+    )
+    .then(() => {
+      console.log("Successfully connected to MongoDB Atlas!");
+    })
+    .catch((error) => {
+      console.log("Unable to connect to MongoDB Atlas!");
+      console.error(error);
     });
-  });
 }
+
+module.exports = dbConnect;
