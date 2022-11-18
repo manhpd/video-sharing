@@ -91,7 +91,7 @@ export default function Register() {
                 {/* email */}
                 <div className='d-flex justify-content-between align-items-start p-3 border-bottom' >
                     
-                    <h2><Link  to="/list" replace={true}><AiFillHome /> Funny Movies </Link></h2>
+                    <h2><Link  to="/" replace={true}><AiFillHome /> Funny Movies </Link></h2>
                     <div>
                         <div className='d-flex gap-2 align-items-center'>
                             {!login ?

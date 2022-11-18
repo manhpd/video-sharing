@@ -12,14 +12,11 @@ export default function MovieList() {
 
   // useEffect automatically executes once the page is fully loaded
   useEffect(() => {
-    const token = cookies.get("TOKEN");
+    // const token = cookies.get("TOKEN");
     // set configurations for the API call here
     const getMoviesRequest = {
       method: "get",
       url: "https://video-sharing-manh.herokuapp.com/getMovies",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     };
 
     // make the API call
