@@ -9,10 +9,11 @@ export const Share = () => {
     const [isError, setIsError] = useState(false);
     const [youtubeUrl, setYoutubeUrl] = useState("");
     const [username, setUsername] = useState("");
+    
     const youtube_parser = (url) => {
         var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
         var match = url.match(regExp);
-        return (match&&match[7].length==11)? match[7] : false;
+        return (match&&match[7].length === 11)? match[7] : false;
     }
 
     useEffect(() => {

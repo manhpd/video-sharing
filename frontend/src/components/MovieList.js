@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import YoutubeEmbed from "./YoutubEmbed";
 const cookies = new Cookies();
 
-// get token generated on login
-const token = cookies.get("TOKEN");
 
 export default function MovieList() {
   // set an initial state for the message we will receive after the API call
@@ -15,6 +12,7 @@ export default function MovieList() {
 
   // useEffect automatically executes once the page is fully loaded
   useEffect(() => {
+    const token = cookies.get("TOKEN");
     // set configurations for the API call here
     const getMoviesRequest = {
       method: "get",
@@ -33,7 +31,7 @@ export default function MovieList() {
       .catch((error) => {
         error = new Error();
       });
-  }, [token]);
+  }, []);
 
   const listVideo = videos?.map((video) => 
     <YoutubeEmbed key={video.videoId} embedId={video.videoId} title={video.title} shareBy={video.shareBy} description={video.description}/> 
