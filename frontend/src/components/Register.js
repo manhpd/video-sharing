@@ -11,7 +11,6 @@ export default function Register() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [register, setRegister] = useState(false);
     const [login, setLogin] = useState(false);
 
     const [errorLogin, setErrorLogin] = useState(false);
@@ -22,7 +21,6 @@ export default function Register() {
         // make the API call
         await axios(registerRequest)
             .then((result) => {
-                setRegister(true);
             })
             .catch((error) => {
                 error = new Error();
