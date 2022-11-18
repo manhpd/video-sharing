@@ -4,14 +4,13 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 export default function Login() {
-   
+    const navigate = useNavigate();
     useEffect(() => {
-        const navigate = useNavigate();
         const token = cookies.get("TOKEN");
         if (token) {
            navigate("/");
         }
-    }, []);
+    }, [navigate]);
     return (
         <div>Please Login</div>
     )

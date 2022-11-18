@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import axios from "axios";
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -9,7 +9,8 @@ export const Share = () => {
     const [isError, setIsError] = useState(false);
     const [youtubeUrl, setYoutubeUrl] = useState("");
     const [username, setUsername] = useState("");
-    
+    const [isLoading, setIsLoading] = useState(false);
+
     const youtube_parser = (url) => {
         var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
         var match = url.match(regExp);
@@ -21,6 +22,7 @@ export const Share = () => {
     }, []);
 
     const shareVideo = async () => {
+        setIsLoading(true);
         const videoInfo = await axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&key=AIzaSyBDzShH0tcvjUjpMiqvJ5Zt8D2NXfI8-8c', 
         { params: { id: youtube_parser(youtubeUrl) } });
         
@@ -28,7 +30,7 @@ export const Share = () => {
         if (youtube_parser(youtubeUrl) && videoInfo) {
             const saveVideoRequest = {
                 method: "post",
-                url: "http://localhost:3000/saveVideo",
+                url: "https://video-sharing-manh.herokuapp.com/saveVideo",
                 data: {
                     videoId : youtube_parser(youtubeUrl),
                     shareBy: username,
@@ -41,15 +43,18 @@ export const Share = () => {
                 setYoutubeUrl("");
                 setIsSuccess(true);
                 setIsError(false);
+                setIsLoading(false);
             })
             .catch((error) => {
                 error = new Error();
                 setIsError(true);
                 setIsSuccess(false);
+                setIsLoading(false);
             });
         } else {
             setIsError(true);
             setIsSuccess(false);
+            setIsLoading(false);
         }
     }
     return (
@@ -68,8 +73,8 @@ export const Share = () => {
                             onChange={(e) => setYoutubeUrl(e.target.value)}
                             value={youtubeUrl}
                         />
-                        <Button variant="primary" onClick={() => shareVideo()} className="mt-2">
-                            Share
+                        <Button variant="primary" disabled={isLoading} onClick={() => shareVideo()} className="mt-2">
+                             { isLoading ? <Spinner animation="border" size="sm" /> : <></> } Share
                         </Button>
 
                         {

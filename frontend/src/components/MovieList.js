@@ -16,7 +16,7 @@ export default function MovieList() {
     // set configurations for the API call here
     const getMoviesRequest = {
       method: "get",
-      url: "http://localhost:3000/getMovies",
+      url: "https://video-sharing-manh.herokuapp.com/getMovies",
       headers: {
         Authorization: `Bearer ${token}`,
       },
