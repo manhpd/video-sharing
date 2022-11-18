@@ -67,7 +67,7 @@ export default function Register() {
     // set registerRequest
     const registerRequest = {
         method: "post",
-        url: "http://localhost:3000/register",
+        url: "https://video-sharing-manh.herokuapp.com/register",
         data: {
             username,
             password,
@@ -77,7 +77,7 @@ export default function Register() {
     // set loginRequest
     const loginRequest = {
         method: "post",
-        url: "http://localhost:3000/login",
+        url: "https://video-sharing-manh.herokuapp.com/login",
         data: {
             username,
             password,
