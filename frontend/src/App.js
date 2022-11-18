@@ -1,30 +1,48 @@
 import "./App.css";
 import Register from "./components/Register";
 import { Route, Routes, Navigate } from "react-router-dom";
-import AuthComponent from "./components/AuthComponent";
+import MovieList from "./components/MovieList";
 import Cookies from "universal-cookie";
+import { Share } from "./components/Share";
+import Login from "./components/Login";
+import My404Component from "./components/My404Component";
 const cookies = new Cookies();
 
 function App() {
   return (
-    <>
-      <Register/>
-       {/* create routes here */}
-       <Routes>
+    <div className="container">
+      <Register />
+      {/* create routes here */}
+      <Routes>
+        <Route path="/login" element={<Login />} />
         <Route
-          path="/auth"
+          path="/list"
           element={
-            // Good! Do your composition here instead of wrapping <Route>.
-            // This is really just inverting the wrapping, but it's a lot
-            // more clear which components expect which props.
-            <RequireAuth redirectTo="/">
-              <AuthComponent />
+            <RequireAuth redirectTo="/login">
+              <MovieList />
             </RequireAuth>
           }
         />
+        <Route
+          path="/"
+          element={
+            <RequireAuth redirectTo="/login">
+              <MovieList />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/share"
+          element={
+            <RequireAuth redirectTo="/">
+              <Share />
+            </RequireAuth>
+          }
+        />
+        <Route path='*' component={My404Component} />
+       
       </Routes>
-    </>
-   
+    </div>
   );
 }
 
