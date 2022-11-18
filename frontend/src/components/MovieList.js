@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "universal-cookie";
 import YoutubeEmbed from "./YoutubEmbed";
-const cookies = new Cookies();
-
 
 export default function MovieList() {
   // set an initial state for the message we will receive after the API call
@@ -12,14 +9,11 @@ export default function MovieList() {
 
   // useEffect automatically executes once the page is fully loaded
   useEffect(() => {
-    const token = cookies.get("TOKEN");
+    // const token = cookies.get("TOKEN");
     // set configurations for the API call here
     const getMoviesRequest = {
       method: "get",
       url: "https://video-sharing-manh.herokuapp.com/getMovies",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     };
 
     // make the API call

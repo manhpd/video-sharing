@@ -4,7 +4,6 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import MovieList from "./components/MovieList";
 import Cookies from "universal-cookie";
 import { Share } from "./components/Share";
-import Login from "./components/Login";
 import My404Component from "./components/My404Component";
 const cookies = new Cookies();
 
@@ -14,21 +13,10 @@ function App() {
       <Register />
       {/* create routes here */}
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/list"
-          element={
-            <RequireAuth redirectTo="/login">
-              <MovieList />
-            </RequireAuth>
-          }
-        />
         <Route
           path="/"
           element={
-            <RequireAuth redirectTo="/login">
-              <MovieList />
-            </RequireAuth>
+            <MovieList />
           }
         />
         <Route
@@ -40,7 +28,6 @@ function App() {
           }
         />
         <Route path='*' component={My404Component} />
-       
       </Routes>
     </div>
   );

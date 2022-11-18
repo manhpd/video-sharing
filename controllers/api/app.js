@@ -131,7 +131,7 @@ app.post("/login", (request, response) => {
 });
 
 // save video endpoint 
-app.post("/saveVideo", (request, response) => {
+app.post("/saveVideo", auth, (request, response) => {
     const video = new Video({
         shareBy: request.body.shareBy,
         videoId: request.body.videoId,
@@ -155,21 +155,14 @@ app.post("/saveVideo", (request, response) => {
             message: "Error saving video",
             error,
         });
-        });
+    });
 });
 
 // get all shared video
 app.get("/getMovies", (request, response) => {
     Video.find({}, function(err, videos) {
-        console.log(videos);
-    
         response.send(videos);  
       });
-});
-
-// authentication endpoint
-app.get("/getList", auth, (request, response) => {
-  response.send({ message: "You are authorized to access me" });
 });
 
 module.exports = app;
