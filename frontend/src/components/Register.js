@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,11 +12,12 @@ export default function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [login, setLogin] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
     const [errorLogin, setErrorLogin] = useState(false);
 
     const handleSubmit = async (e) => {
         // prevent the form from refreshing the whole page
+        setIsLoading(true);
         e.preventDefault();
         // make the API call
         await axios(registerRequest)
@@ -36,9 +37,11 @@ export default function Register() {
                 });
                 navigate("/list");
                 setLogin(true);
+                setIsLoading(false);
             })
             .catch((error) => {
                 setErrorLogin(true);
+                setIsLoading(false);
                 error = new Error();
             });
     }
@@ -119,8 +122,9 @@ export default function Register() {
                                     <Button
                                         variant="primary"
                                         type="submit"
-                                        onClick={(e) => handleSubmit(e)} >
-                                        Register/Login
+                                        onClick={(e) => handleSubmit(e)}
+                                        disabled={isLoading} >
+                                        { isLoading ? <Spinner animation="border" size="sm" /> : <></> }Register/Login
                                     </Button> 
                                     { errorLogin ? <>
                                         
